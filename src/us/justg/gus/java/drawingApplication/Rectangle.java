@@ -6,10 +6,15 @@
 
 package us.justg.gus.java.drawingApplication;
 
+import java.awt.Point;
+
 /**
  *
  * @author hfs5022
  */
-public class Rectangle {
-    
+public class Rectangle extends Shape {
+    public Rectangle(Point start, Point end) {
+        
+        
+    }
 }

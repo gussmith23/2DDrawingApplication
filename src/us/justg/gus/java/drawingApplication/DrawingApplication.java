@@ -25,7 +25,7 @@ public class DrawingApplication extends JFrame {
     JButton undoButton;
     JButton clearButton;
     JLabel shapeLabel;
-    JComboBox<Class> shapeChooser;
+    JComboBox<String> shapeChooser;
     JCheckBox filledCheckBox;
     
     // Row 2
@@ -61,7 +61,7 @@ public class DrawingApplication extends JFrame {
         undoButton = new JButton("Undo");
         clearButton = new JButton("Clear");
         shapeLabel = new JLabel("Shape:");
-        shapeChooser = new JComboBox<Class>();
+        shapeChooser = new JComboBox(new String[]{"Rectangle","Oval","Line"});
         filledCheckBox = new JCheckBox("Filled");
         row1.add(undoButton);
         row1.add(clearButton);
@@ -123,10 +123,33 @@ public class DrawingApplication extends JFrame {
             setPreferredSize(d);
             setBackground(Color.white);
             
+            shapes = new ArrayList<>();
+            
             DrawPanelMouseListener listener = new DrawPanelMouseListener();
             addMouseListener(listener);
             addMouseMotionListener(listener);
 
+        }
+        
+        private boolean addObject(String type, Point start, Point end) {
+            
+            Shape shapeToAdd = null;
+            
+            switch (type){
+                case "Rectangle":
+                    shapeToAdd = new Rectangle(start,end);
+                    break;
+                case "Oval":
+                    shapeToAdd = new Oval(start,end);
+                    break;
+                case "Line":
+                    shapeToAdd = new Line(start,end);
+                    break;                
+            }
+            
+            shapes.add(shapeToAdd);
+            
+            return true;
         }
         
         
@@ -140,10 +163,14 @@ public class DrawingApplication extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                start = e.getPoint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                if(!start.equals(null)){
+                    addObject((String)shapeChooser.getSelectedItem(), start, e.getPoint());
+                }
             }
 
             @Override

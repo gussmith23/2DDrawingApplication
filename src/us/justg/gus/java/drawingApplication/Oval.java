@@ -6,10 +6,17 @@
 
 package us.justg.gus.java.drawingApplication;
 
+import java.awt.Point;
+
 /**
  *
  * @author hfs5022
  */
-public class Oval {
+public class Oval extends Shape {
+    
+    public Oval(Point start, Point end) {
+        
+        
+    }
     
 }

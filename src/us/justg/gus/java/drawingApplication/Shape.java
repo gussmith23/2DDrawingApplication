@@ -16,7 +16,6 @@ import us.justg.gus.java.drawingApplication.Rectangle;
  */
 public class Shape {
     
-    
-    
+      
     
 }

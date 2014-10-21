@@ -6,10 +6,17 @@
 
 package us.justg.gus.java.drawingApplication;
 
+import java.awt.Point;
+
 /**
  *
  * @author hfs5022
  */
-public class Line {
+public class Line extends Shape {
+    
+    public Line(Point start, Point end) {
+        
+        
+    }
     
 }
