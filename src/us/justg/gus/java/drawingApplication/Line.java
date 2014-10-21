@@ -22,6 +22,7 @@ public class Line extends Shape {
 
     @Override
     public void paintComponent(Graphics g) {
+        g.drawLine(start.x, start.y, end.x, end.y);
     }
     
     

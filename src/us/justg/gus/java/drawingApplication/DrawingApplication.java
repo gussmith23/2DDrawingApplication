@@ -7,10 +7,16 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,8 +28,12 @@ import javax.swing.JTextField;
 
 public class DrawingApplication extends JFrame {
     
+    // Constants
+    private final int DEFAULT_WIDTH = 1;
+    private final int DEFAULT_DASH_LENGTH = 0;
     
-    // Row 1
+    
+    //-ROW 1--------------------------------------------------------------------
     JPanel row1;
     JButton undoButton;
     JButton clearButton;
@@ -31,7 +41,7 @@ public class DrawingApplication extends JFrame {
     JComboBox<String> shapeChooser;
     JCheckBox filledCheckBox;
     
-    // Row 2
+    //-ROW 2--------------------------------------------------------------------
     JPanel row2;
     JCheckBox gradientCheckBox;
     JButton color1Button;
@@ -41,11 +51,11 @@ public class DrawingApplication extends JFrame {
     JLabel dashLengthLabel;
     JTextField dashLengthTextField;
     JCheckBox dashedCheckBox;
-    
-    // Row 3 (Drawing Pane)
+            
+    //-ROW 3--------------------------------------------------------------------
     DrawPanel drawPane;
     
-    // Row 4 (Coordinates label)
+    //-ROW 4--------------------------------------------------------------------
     JPanel row4;
     JLabel coords;
     
@@ -82,6 +92,10 @@ public class DrawingApplication extends JFrame {
         dashLengthLabel = new JLabel("Dash Length:");
         dashLengthTextField = new JTextField(2);
         dashedCheckBox = new JCheckBox("Dashed");
+        // Set text  box defaults.
+        widthTextField.setText("1");
+        dashLengthTextField.setText("0");
+        
         row2.add(gradientCheckBox);
         row2.add(color1Button);
         row2.add(color2Button);
@@ -147,6 +161,42 @@ public class DrawingApplication extends JFrame {
             
             Shape shapeToAdd = null;
             
+            // Parse ints from text boxes.
+            int width, dashLength;
+            
+            try {
+                width = Integer.parseInt(widthTextField.getText());
+            } catch (NumberFormatException e) {
+                width = DEFAULT_WIDTH;
+                widthTextField.setText("");
+            }
+            
+            try {
+                dashLength = Integer.parseInt(dashLengthTextField.getText());
+            } catch (NumberFormatException e) {
+                dashLength = DEFAULT_DASH_LENGTH;
+                dashLengthTextField.setText("");
+            }
+            
+            try {
+                Class c = Class.forName("us.justg.gus.java.drawingApplication." + type);
+                Constructor constructor = c.getConstructors()[0];
+                shapeToAdd = (Shape) constructor.newInstance(start, start, 
+                            filledCheckBox.isSelected(), 
+                            gradientCheckBox.isSelected(), Color.black, 
+                            Color.black, Integer.parseInt(widthTextField.getText()), 
+                            Integer.parseInt(dashLengthTextField.getText()), 
+                            dashedCheckBox.isSelected());
+            } catch (ClassNotFoundException e) {
+                return false;
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                return false;
+            }
+            
+            
+            
+            
+            /*
             switch (type){
                 case "Rectangle":
                     shapeToAdd = new Rectangle(start, start, 
@@ -172,7 +222,7 @@ public class DrawingApplication extends JFrame {
                             Integer.parseInt(dashLengthTextField.getText()), 
                             dashedCheckBox.isSelected());
                     break;                
-            }
+            }*/
             
             shapes.add(shapeToAdd);
             
