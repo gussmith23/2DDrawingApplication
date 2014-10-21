@@ -25,7 +25,7 @@ public class DrawingApplication extends JFrame {
     JButton undoButton;
     JButton clearButton;
     JLabel shapeLabel;
-    JComboBox<String> shapeChooser;
+    JComboBox<Class> shapeChooser;
     JCheckBox filledCheckBox;
     
     // Row 2
@@ -61,7 +61,7 @@ public class DrawingApplication extends JFrame {
         undoButton = new JButton("Undo");
         clearButton = new JButton("Clear");
         shapeLabel = new JLabel("Shape:");
-        shapeChooser = new JComboBox<String>();
+        shapeChooser = new JComboBox<Class>();
         filledCheckBox = new JCheckBox("Filled");
         row1.add(undoButton);
         row1.add(clearButton);
