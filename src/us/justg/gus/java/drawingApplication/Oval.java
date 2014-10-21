@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package us.justg.gus.java.drawingApplication.shapes;
+package us.justg.gus.java.drawingApplication;
 
 /**
  *
  * @author hfs5022
  */
-public class Shape {
+public class Oval {
     
 }

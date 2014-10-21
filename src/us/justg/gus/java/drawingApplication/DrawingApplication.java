@@ -3,9 +3,11 @@ package us.justg.gus.java.drawingApplication;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -111,6 +113,8 @@ public class DrawingApplication extends JFrame {
     
     
     private class DrawPanel extends JPanel {
+        
+        ArrayList<Shape> shapes;
 
         public DrawPanel(Dimension d) {
 
@@ -127,6 +131,8 @@ public class DrawingApplication extends JFrame {
         
         
         private class DrawPanelMouseListener implements MouseListener, MouseMotionListener{
+            
+            Point start = null;
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -146,6 +152,7 @@ public class DrawingApplication extends JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
+                
             }
 
             @Override
