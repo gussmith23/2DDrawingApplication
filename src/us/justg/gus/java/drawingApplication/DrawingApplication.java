@@ -3,6 +3,9 @@ package us.justg.gus.java.drawingApplication;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -97,6 +100,7 @@ public class DrawingApplication extends JFrame {
         add(drawPane);
         add(row4);
         pack();
+        setResizable(false);
         setVisible(true);
         
     }
@@ -114,7 +118,46 @@ public class DrawingApplication extends JFrame {
             super();
             setPreferredSize(d);
             setBackground(Color.white);
+            
+            DrawPanelMouseListener listener = new DrawPanelMouseListener();
+            addMouseListener(listener);
+            addMouseMotionListener(listener);
 
+        }
+        
+        
+        private class DrawPanelMouseListener implements MouseListener, MouseMotionListener{
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                coords.setText(String.format("(%d, %d)", e.getX(), e.getY()));
+            }
+            
+            
         }
     
     
