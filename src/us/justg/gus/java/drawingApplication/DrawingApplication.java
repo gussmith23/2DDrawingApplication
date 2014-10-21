@@ -3,7 +3,10 @@ package us.justg.gus.java.drawingApplication;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -128,22 +131,46 @@ public class DrawingApplication extends JFrame {
             DrawPanelMouseListener listener = new DrawPanelMouseListener();
             addMouseListener(listener);
             addMouseMotionListener(listener);
+            
+            undoButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(shapes.size()>0) shapes.remove(shapes.size()-1);
+                    repaint();
+                }
+            });
 
         }
         
-        private boolean addObject(String type, Point start, Point end) {
+        private boolean addObject(String type, Point start) {
             
             Shape shapeToAdd = null;
             
             switch (type){
                 case "Rectangle":
-                    shapeToAdd = new Rectangle(start,end);
+                    shapeToAdd = new Rectangle(start, start, 
+                            filledCheckBox.isSelected(), 
+                            gradientCheckBox.isSelected(), Color.black, 
+                            Color.black, Integer.parseInt(widthTextField.getText()), 
+                            Integer.parseInt(dashLengthTextField.getText()), 
+                            dashedCheckBox.isSelected());
                     break;
                 case "Oval":
-                    shapeToAdd = new Oval(start,end);
+                    shapeToAdd = new Oval(start, start, 
+                            filledCheckBox.isSelected(), 
+                            gradientCheckBox.isSelected(), Color.black, 
+                            Color.black, Integer.parseInt(widthTextField.getText()), 
+                            Integer.parseInt(dashLengthTextField.getText()), 
+                            dashedCheckBox.isSelected());
                     break;
                 case "Line":
-                    shapeToAdd = new Line(start,end);
+                    shapeToAdd = new Line(start, start, 
+                            filledCheckBox.isSelected(), 
+                            gradientCheckBox.isSelected(), Color.black, 
+                            Color.black, Integer.parseInt(widthTextField.getText()), 
+                            Integer.parseInt(dashLengthTextField.getText()), 
+                            dashedCheckBox.isSelected());
                     break;                
             }
             
@@ -153,9 +180,19 @@ public class DrawingApplication extends JFrame {
         }
         
         
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            
+            setBackground(Color.white);
+            for(Shape shape:shapes) {
+                shape.paintComponent(g);
+            }
+        }
+        
         private class DrawPanelMouseListener implements MouseListener, MouseMotionListener{
             
-            Point start = null;
+            boolean drawing = false;
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -163,14 +200,13 @@ public class DrawingApplication extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                start = e.getPoint();
+                addObject((String)shapeChooser.getSelectedItem(), e.getPoint());
+                drawing = true;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if(!start.equals(null)){
-                    addObject((String)shapeChooser.getSelectedItem(), start, e.getPoint());
-                }
+                drawing = false;
             }
 
             @Override
@@ -184,6 +220,14 @@ public class DrawingApplication extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                if(drawing) {
+                    // Get the last shape.
+                    Shape shape = shapes.get(shapes.size()-1);
+                    // Update with end point.
+                    shape.setEnd(e.getPoint());
+                    
+                    repaint();
+                }
             }
 
             @Override

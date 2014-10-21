@@ -6,6 +6,8 @@
 
 package us.justg.gus.java.drawingApplication;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 
 /**
@@ -13,10 +15,15 @@ import java.awt.Point;
  * @author hfs5022
  */
 public class Line extends Shape {
-    
-    public Line(Point start, Point end) {
-        
-        
+
+    public Line(Point start, Point end, boolean filled, boolean gradient, Color color1, Color color2, int lineWidth, int dashLength, boolean dashed) {
+        super(start, end, filled, gradient, color1, color2, lineWidth, dashLength, dashed);
     }
+
+    @Override
+    public void paintComponent(Graphics g) {
+    }
+    
+    
     
 }
