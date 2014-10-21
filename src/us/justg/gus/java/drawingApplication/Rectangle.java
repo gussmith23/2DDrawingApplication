@@ -8,6 +8,7 @@ package us.justg.gus.java.drawingApplication;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
@@ -23,10 +24,19 @@ public class Rectangle extends Shape {
     @Override
     public void paintComponent(Graphics g) {
         
+        super.paintComponent(g);
+        
+        Graphics2D g2 = (Graphics2D) g;
+        
+        
         // Finding the point in the top left
         Point[] newPoints = findTopLeft(start, end);
         
-        g.drawRect(newPoints[0].x, newPoints[0].y, newPoints[1].x-newPoints[0].x, newPoints[1].y-newPoints[0].y);
+        if(filled) {
+            g2.fillRect(newPoints[0].x, newPoints[0].y, newPoints[1].x-newPoints[0].x, newPoints[1].y-newPoints[0].y);
+        } else {
+            g2.drawRect(newPoints[0].x, newPoints[0].y, newPoints[1].x-newPoints[0].x, newPoints[1].y-newPoints[0].y);
+        }
     }
    
 }

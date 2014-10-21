@@ -6,8 +6,11 @@
 
 package us.justg.gus.java.drawingApplication;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import javax.swing.JComponent;
 import us.justg.gus.java.drawingApplication.Line;
@@ -43,7 +46,35 @@ public abstract class Shape extends JComponent {
     }
     
     @Override
-    public abstract void paintComponent(Graphics g);
+    public void paintComponent(Graphics g) {
+        
+        super.paintComponent(g);
+        
+        Graphics2D g2 = (Graphics2D) g;
+                
+        if (dashed) {
+            g2.setStroke(
+                    new BasicStroke(
+                            lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL,
+                            10.0f, new float[]{(float)dashLength}, 0.0f)
+            );
+        } else {
+            g2.setStroke( 
+                    new BasicStroke(
+                            lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL)
+            );
+            
+        }
+        
+        if(gradient) {
+            g2.setPaint(
+                    new GradientPaint(start, color1, end, color2)
+            );
+        } else {
+            g2.setPaint(color1);
+        }
+        
+    }
     
     // Takes two points and returns the top left and bottom right points.
     public Point[] findTopLeft(Point start, Point end) {
